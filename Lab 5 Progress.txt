@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MAX_INGREDIENTS 100
+
+// Function prototypes
+void check_pantry_and_sales();
+void replenish_ingredients();
+void change_coffee_price();
+
+// Global variables to store ingredient quantities and total sales
+int coffee_price = 4; // Default coffee price
+int total_amount = 0; // Total sales amount
+int ingredient_quantities[3] = {10, 10, 10}; // Initial quantities for three ingredients
+
+
+
+// Function to check pantry and sales
+void check_pantry_and_sales() {
+    printf("Current ingredient quantities:\n");
+    printf("Ingredient 1: %d\n", ingredient_quantities[0]);
+    printf("Ingredient 2: %d\n", ingredient_quantities[1]);
+    printf("Ingredient 3: %d\n", ingredient_quantities[2]);
+    printf("Total sales amount: %.2f AED\n", (float)total_amount);
+    
+    char reset;
+    printf("Would you like to reset total sales to zero? (y/n): ");
+    scanf(" %c", &reset);
+    if (reset == 'y' || reset == 'Y') {
+        total_amount = 0;
+        printf("Total sales reset to zero. Remember to collect the money from the machine.\n");
+    }
+}
+
+// Function to replenish ingredients
+void replenish_ingredients() {
+    srand(time(NULL)); // Seed for random number generation
+    for (int i = 0; i < 3; i++) {
+        ingredient_quantities[i] = rand() % (MAX_INGREDIENTS + 1); // Reset quantities randomly
+    }
+    printf("Ingredients replenished randomly.\n");
+}
+
+// Function to change coffee price
+void change_coffee_price() {
+    printf("Current coffee price: %d AED\n", coffee_price
