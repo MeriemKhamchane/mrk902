@@ -1,14 +1,18 @@
-/tmp/irwsjUkEos.c: In function 'replenishIngredients':
-ERROR!
-/tmp/irwsjUkEos.c:135:112: error: expected ';' before ')' token
-  135 | [0] + (rand() % (MAX_INGREDIENTS / 2 + 1)) : MAX_INGREDIENTS); // Coffee
-      |                                                             ^
+void replenishIngredients(int ingredientQuantities[]) {
+    // Increment the quantity of each ingredient by a random amount
+    srand(time(NULL)); // Seed the random number generator
+    ingredientQuantities[0] = (ingredientQuantities[0] + (rand() % (MAX_INGREDIENTS / 2 + 1))) <= MAX_INGREDIENTS ?
+                               ingredientQuantities[0] + (rand() % (MAX_INGREDIENTS / 2 + 1)) : MAX_INGREDIENTS); // Coffee
+    ingredientQuantities[1] = (ingredientQuantities[1] + (rand() % (MAX_INGREDIENTS / 2 + 1))) <= MAX_INGREDIENTS ?
+                               ingredientQuantities[1] + (rand() % (MAX_INGREDIENTS / 2 + 1)) : MAX_INGREDIENTS; // Milk
+    ingredientQuantities[2] = (ingredientQuantities[2] + (rand() % (MAX_INGREDIENTS / 2 + 1))) <= MAX_INGREDIENTS ?
+                               ingredientQuantities[2] + (rand() % (MAX_INGREDIENTS / 2 + 1)) : MAX_INGREDIENTS; // Sugar
 
-/tmp/irwsjUkEos.c:135:112: error: expected statement before ')' token
-
-
-=== Code Exited With Errors ===
-
+    printf("Ingredients replenished:\n");
+    printf("Coffee: %d\n", ingredientQuantities[0]);
+    printf("Milk: %d\n", ingredientQuantities[1]);
+    printf("Sugar: %d\n", ingredientQuantities[2]);
+}
 
 
 
