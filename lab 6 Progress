@@ -2,31 +2,31 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_INGREDIENTS 100 // Define a maximum for simplicity
-#define MIN_INGREDIENT_THRESHOLD 10 // Minimum threshold for alerting
+#define MAX_INGREDIENTS 100 // Define a maximum number of ingredients so that the rand function does's allocate a huge amount 
+#define MIN_INGREDIENT_THRESHOLD 10 // When the ingredients get this low there will be an alert 
 
-// Function prototypes
+// All of the function prototypes shown below
 void checkPantryAndSales(int ingredientQuantities[], float *total_amount);
 void replenishIngredients(int ingredientQuantities[]);
 void changeCoffeePrice(float *espressoPrice, float *cappuccinoPrice, float *mochaPrice);
 void orderCoffee(int ingredientQuantities[], float espressoPrice, float cappuccinoPrice, float mochaPrice);
 
 int main() {
-    int selection;
+    int selection; // Variable definitions 
     int admin_password;
     int admin_selection;
 
-    // Initialize ingredient quantities and prices
-    int ingredientQuantities[3] = {MAX_INGREDIENTS, MAX_INGREDIENTS, MAX_INGREDIENTS}; // Example: coffee, milk, sugar
+    // Initialize ingredient quantities and prices as float variables (so that they can be changed in admin mode)
+    int ingredientQuantities[3] = {MAX_INGREDIENTS, MAX_INGREDIENTS, MAX_INGREDIENTS}; // Such as coffee, milk, and sugar
     float espressoPrice = 3.5, cappuccinoPrice = 4.5, mochaPrice = 5.5;
-    float total_amount = 0.0;
+    float total_amount = 0.0; //Needed later when paying
 
-    while (1) {
-        printf("Welcome!\n1. User mode\n2. Admin mode\n3. End application\n");
-        if (scanf("%d", &selection) != 1) { // Check if scanf was successful
-            printf("You inputted an invalid value\n");
+    while (1) { //infinte loop so that the code keeps running forever unles application ends
+        printf("Welcome!\n1. User mode\n2. Admin mode\n3. End application\n"); //The main menue display
+        if (scanf("%d", &selection) != 1) { // Checks if the user input is valid or not
+            printf("You inputted an invalid value\n"); // Informs user that it isn't valid 
             while (getchar() != '\n'); // Consume the invalid input
-            continue; // Go back to the beginning of the loop
+            continue; // Go back to the beginning of the loop and redisplay the main menue
         }
 
         switch (selection) {
