@@ -1,0 +1,125 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MAX_INGREDIENTS 100 // Define a maximum for simplicity
+
+// Function prototypes
+void checkPantryAndSales(int ingredientQuantities[], float total_amount);
+void replenishIngredients(int ingredientQuantities[]);
+void changeCoffeePrice(float *espressoPrice, float *cappuccinoPrice, float *mochaPrice);
+void displayMenu(float espressoPrice, float cappuccinoPrice, float mochaPrice);
+
+int main() {
+    int selection;
+    int coffee_selection;
+    int admin_password;
+    int admin_selection;
+    
+    // Initialize ingredient quantities and prices
+    int ingredientQuantities[3] = {MAX_INGREDIENTS, MAX_INGREDIENTS, MAX_INGREDIENTS}; // Example: coffee, milk, sugar
+    float espressoPrice = 3.5, cappuccinoPrice = 4.5, mochaPrice = 5.5;
+    float total_amount = 0.0;
+
+    while(1) {
+        printf("Welcome!\n1. User mode\n2. Admin mode\n3. End application\n");
+        if (scanf("%d", &selection) != 1) { // Check if scanf was successful
+            printf("You inputted an invalid value\n");
+            while(getchar() != '\n'); // Consume the invalid input
+            continue; // Go back to the beginning of the loop
+        }
+
+        switch (selection) {
+            case 1:
+                displayMenu(espressoPrice, cappuccinoPrice, mochaPrice);
+                scanf("%d", &coffee_selection);
+
+                switch (coffee_selection) {
+                    case 1:
+                        printf("You selected Espresso\n");
+                        total_amount += espressoPrice;
+                        break;
+                    case 2:
+                        printf("You selected Cappuccino\n");
+                        total_amount += cappuccinoPrice;
+                        break;
+                    case 3:
+                        printf("You selected Mocha\n");
+                        total_amount += mochaPrice;
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        printf("You inputted an invalid value\n");
+                }
+                break;
+
+            case 2:
+                while(1) { 
+                    printf("Enter admin password: ");
+                    scanf("%d", &admin_password);
+                    getchar(); 
+                    if (admin_password == 12345678) {
+                        while(1) {
+                            printf("MENU:\n1. Check pantry and sales\n2. Replenish ingredients\n3. Change coffee price\n0: Exit Admin Mode\n");
+                            scanf("%d", &admin_selection);
+                            
+                            switch (admin_selection) {
+                                case 1:
+                                    checkPantryAndSales(ingredientQuantities, total_amount);
+                                    break;
+                                case 2:
+                                    replenishIngredients(ingredientQuantities);
+                                    break;
+                                case 3:
+                                    changeCoffeePrice(&espressoPrice, &cappuccinoPrice, &mochaPrice);
+                                    break;
+                                case 0:
+                                    printf("Exiting Admin Mode...\n");
+                                    return 0;
+                                default:
+                                    printf("You inputted an invalid value\n");
+                            }
+                        }
+                    } else {
+                        printf("Incorrect password\n");
+                        break; // Exit the admin password loop
+                    }
+                }
+                break;
+
+            case 3:
+                printf("Exiting application...\n");
+                return 0;
+
+            default:
+                printf("You inputted an invalid value\n");
+        }
+    }
+
+    return 0;
+}
+
+void checkPantryAndSales(int ingredientQuantities[], float total_amount) {
+    printf("Ingredient Quantities:\n");
+    printf("Coffee: %d\n", ingredientQuantities[0]);
+    printf("Milk: %d\n", ingredientQuantities[1]);
+    printf("Sugar: %d\n", ingredientQuantities[2]);
+    printf("Total Sales Amount: %.2f AED\n", total_amount);
+    
+    char reset;
+    printf("Would you like to reset the total sales amount to zero? (y/n): ");
+    scanf(" %c", &reset);
+    if (reset == 'y' || reset == 'Y') {
+        total_amount = 0.0;
+        printf("Total sales amount reset to zero. Don't forget to collect the money from the machine!\n");
+    }
+}
+
+void replenishIngredients(int ingredientQuantities[]) {
+    // Randomly reset the quantity of each ingredient
+    srand(time(NULL)); // Seed the random number generator
+    ingredientQuantities[0] = rand() % (MAX_INGREDIENTS + 1); // Coffee
+    ingredientQuantities[1] = rand() % (MAX_INGREDIENTS + 1); // Milk
+    ingredientQuantities[2] = rand() % (MAX_INGREDIENTS + 1); // Sugar
+    printf("
