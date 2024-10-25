@@ -9,7 +9,6 @@
 void checkPantryAndSales(int ingredientQuantities[], float *total_amount);
 void replenishIngredients(int ingredientQuantities[]);
 void changeCoffeePrice(float *espressoPrice, float *cappuccinoPrice, float *mochaPrice);
-void displayMenu(float espressoPrice, float cappuccinoPrice, float mochaPrice);
 void orderCoffee(int ingredientQuantities[], float espressoPrice, float cappuccinoPrice, float mochaPrice);
 
 int main() {
@@ -35,46 +34,45 @@ int main() {
                 orderCoffee(ingredientQuantities, espressoPrice, cappuccinoPrice, mochaPrice);
                 break;
 
-            case 2:
-                {
-                    int admin_mode = 1; // Flag to track admin mode status
-                    while (admin_mode) { 
-                        printf("Enter admin password: ");
-                        scanf("%d", &admin_password);
-                        getchar(); 
-                        if (admin_password == 12345678) {
-                            while (1) {
-                                printf("MENU:\n1. Check pantry and sales\n2. Replenish ingredients\n3. Change coffee price\n0: Exit Admin Mode\n");
-                                scanf("%d", &admin_selection);
-                                
-                                switch (admin_selection) {
-                                    case 1:
-                                        checkPantryAndSales(ingredientQuantities, &total_amount);
-                                        break;
-                                    case 2:
-                                        replenishIngredients(ingredientQuantities);
-                                        break;
-                                    case 3:
-                                        changeCoffeePrice(&espressoPrice, &cappuccinoPrice, &mochaPrice);
-                                        break;
-                                    case 0:
-                                        printf("Exiting Admin Mode...\n");
-                                        admin_mode = 0; // Set the flag to 0 to exit admin mode
-                                        break; // Exit admin menu loop
-                                    default:
-                                        printf("You inputted an invalid value\n");
-                                }
-                                if (!admin_mode) {
-                                    break; // Exit the admin selection loop
-                                }
+            case 2: {
+                int admin_mode = 1; // Flag to track admin mode status
+                while (admin_mode) { 
+                    printf("Enter admin password: ");
+                    scanf("%d", &admin_password);
+                    getchar(); 
+                    if (admin_password == 12345678) {
+                        while (1) {
+                            printf("MENU:\n1. Check pantry and sales\n2. Replenish ingredients\n3. Change coffee price\n0: Exit Admin Mode\n");
+                            scanf("%d", &admin_selection);
+                            
+                            switch (admin_selection) {
+                                case 1:
+                                    checkPantryAndSales(ingredientQuantities, &total_amount);
+                                    break;
+                                case 2:
+                                    replenishIngredients(ingredientQuantities);
+                                    break;
+                                case 3:
+                                    changeCoffeePrice(&espressoPrice, &cappuccinoPrice, &mochaPrice);
+                                    break;
+                                case 0:
+                                    printf("Exiting Admin Mode...\n");
+                                    admin_mode = 0; // Set the flag to 0 to exit admin mode
+                                    break; // Exit admin menu loop
+                                default:
+                                    printf("You inputted an invalid value\n");
                             }
-                        } else {
-                            printf("Incorrect password\n");
-                            break; // Exit the admin password loop
+                            if (!admin_mode) {
+                                break; // Exit the admin selection loop
+                            }
                         }
+                    } else {
+                        printf("Incorrect password\n");
+                        break; // Exit the admin password loop
                     }
                 }
-                break;
+            }
+            break;
 
             case 3:
                 printf("Exiting application...\n");
@@ -91,7 +89,7 @@ int main() {
 void orderCoffee(int ingredientQuantities[], float espressoPrice, float cappuccinoPrice, float mochaPrice) {
     int coffee_selection;
     float total_paid = 0.0;
-    int coin;
+    float coin;
 
     while (1) {
         printf("Available Coffee Types:\n");
@@ -149,8 +147,8 @@ void orderCoffee(int ingredientQuantities[], float espressoPrice, float cappucci
         // Handle payment
         while (total_paid < price) {
             printf("Insert coin (1 or 0.5 AED): ");
-            scanf("%d", &coin);
-            if (coin == 1 || coin == 0.5) {
+            scanf("%f", &coin); // Change to float to handle 0.5 correctly
+            if (coin == 1.0 || coin == 0.5) {
                 total_paid += coin;
             } else {
                 printf("Invalid coin inserted! Please collect the invalid coin and insert a valid one.\n");
@@ -202,4 +200,17 @@ void replenishIngredients(int ingredientQuantities[]) {
                                ingredientQuantities[2] + (rand() % (MAX_INGREDIENTS / 2 + 1)) : MAX_INGREDIENTS; // Sugar
 
     printf("Ingredients replenished:\n");
-    printf("
+    printf("Coffee: %d\n", ingredientQuantities[0]);
+    printf("Milk: %d\n", ingredientQuantities[1]);
+    printf("Sugar: %d\n", ingredientQuantities[2]);
+}
+
+void changeCoffeePrice(float *espressoPrice, float *cappuccinoPrice, float *mochaPrice) {
+    printf("Enter new price for Espresso: ");
+    scanf("%f", espressoPrice);
+    printf("Enter new price for Cappuccino: ");
+    scanf("%f", cappuccinoPrice);
+    printf("Enter new price for Mocha: ");
+    scanf("%f", mochaPrice);
+    printf("Coffee prices updated successfully!\n");
+}
