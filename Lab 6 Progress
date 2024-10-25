@@ -1,3 +1,17 @@
+/tmp/irwsjUkEos.c: In function 'replenishIngredients':
+ERROR!
+/tmp/irwsjUkEos.c:135:112: error: expected ';' before ')' token
+  135 | [0] + (rand() % (MAX_INGREDIENTS / 2 + 1)) : MAX_INGREDIENTS); // Coffee
+      |                                                             ^
+
+/tmp/irwsjUkEos.c:135:112: error: expected statement before ')' token
+
+
+=== Code Exited With Errors ===
+
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
