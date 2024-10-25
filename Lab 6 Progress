@@ -5,7 +5,7 @@
 #define MAX_INGREDIENTS 100 // Define a maximum for simplicity
 
 // Function prototypes
-void checkPantryAndSales(int ingredientQuantities[], float total_amount);
+void checkPantryAndSales(int ingredientQuantities[], float *total_amount);
 void replenishIngredients(int ingredientQuantities[]);
 void changeCoffeePrice(float *espressoPrice, float *cappuccinoPrice, float *mochaPrice);
 void displayMenu(float espressoPrice, float cappuccinoPrice, float mochaPrice);
@@ -34,23 +34,32 @@ int main() {
                 displayMenu(espressoPrice, cappuccinoPrice, mochaPrice);
                 scanf("%d", &coffee_selection);
 
-                switch (coffee_selection) {
-                    case 1:
-                        printf("You selected Espresso\n");
-                        total_amount += espressoPrice;
-                        break;
-                    case 2:
-                        printf("You selected Cappuccino\n");
-                        total_amount += cappuccinoPrice;
-                        break;
-                    case 3:
-                        printf("You selected Mocha\n");
-                        total_amount += mochaPrice;
-                        break;
-                    case 4:
-                        break;
-                    default:
-                        printf("You inputted an invalid value\n");
+                if (coffee_selection >= 1 && coffee_selection <= 3) {
+                    if (ingredientQuantities[0] > 0) { // Check if there is coffee
+                        switch (coffee_selection) {
+                            case 1:
+                                printf("You selected Espresso\n");
+                                total_amount += espressoPrice;
+                                ingredientQuantities[0]--; // Decrease coffee quantity
+                                break;
+                            case 2:
+                                printf("You selected Cappuccino\n");
+                                total_amount += cappuccinoPrice;
+                                ingredientQuantities[0]--; // Decrease coffee quantity
+                                break;
+                            case 3:
+                                printf("You selected Mocha\n");
+                                total_amount += mochaPrice;
+                                ingredientQuantities[0]--; // Decrease coffee quantity
+                                break;
+                        }
+                    } else {
+                        printf("Not enough ingredients!\n");
+                    }
+                } else if (coffee_selection == 4) {
+                    break; // Exit user menu
+                } else {
+                    printf("You inputted an invalid value\n");
                 }
                 break;
 
@@ -66,7 +75,7 @@ int main() {
                             
                             switch (admin_selection) {
                                 case 1:
-                                    checkPantryAndSales(ingredientQuantities, total_amount);
+                                    checkPantryAndSales(ingredientQuantities, &total_amount);
                                     break;
                                 case 2:
                                     replenishIngredients(ingredientQuantities);
@@ -76,9 +85,12 @@ int main() {
                                     break;
                                 case 0:
                                     printf("Exiting Admin Mode...\n");
-                                    return 0;
+                                    break; // Exit admin menu loop
                                 default:
                                     printf("You inputted an invalid value\n");
+                            }
+                            if (admin_selection == 0) {
+                                break; // Exit the admin selection loop
                             }
                         }
                     } else {
@@ -100,26 +112,47 @@ int main() {
     return 0;
 }
 
-void checkPantryAndSales(int ingredientQuantities[], float total_amount) {
+void checkPantryAndSales(int ingredientQuantities[], float *total_amount) {
     printf("Ingredient Quantities:\n");
     printf("Coffee: %d\n", ingredientQuantities[0]);
     printf("Milk: %d\n", ingredientQuantities[1]);
     printf("Sugar: %d\n", ingredientQuantities[2]);
-    printf("Total Sales Amount: %.2f AED\n", total_amount);
+    printf("Total Sales Amount: %.2f AED\n", *total_amount);
     
     char reset;
     printf("Would you like to reset the total sales amount to zero? (y/n): ");
     scanf(" %c", &reset);
     if (reset == 'y' || reset == 'Y') {
-        total_amount = 0.0;
+        *total_amount = 0.0; // Use pointer to modify the original variable
         printf("Total sales amount reset to zero. Don't forget to collect the money from the machine!\n");
     }
 }
 
 void replenishIngredients(int ingredientQuantities[]) {
-    // Randomly reset the quantity of each ingredient
+    // Increment the quantity of each ingredient by a random amount
     srand(time(NULL)); // Seed the random number generator
-    ingredientQuantities[0] = rand() % (MAX_INGREDIENTS + 1); // Coffee
-    ingredientQuantities[1] = rand() % (MAX_INGREDIENTS + 1); // Milk
-    ingredientQuantities[2] = rand() % (MAX_INGREDIENTS + 1); // Sugar
-    printf("
+    ingredientQuantities[0] = (ingredientQuantities[0] + (rand() % (MAX_INGREDIENTS / 2 + 1))) <= MAX_INGREDIENTS ? 
+                               ingredientQuantities[0] + (rand() % (MAX_INGREDIENTS / 2 + 1)) : MAX_INGREDIENTS); // Coffee
+    ingredientQuantities[1] = (ingredientQuantities[1] + (rand() % (MAX_INGREDIENTS / 2 + 1))) <= MAX_INGREDIENTS ? 
+                               ingredientQuantities[1] + (rand() % (MAX_INGREDIENTS / 2 + 1)) : MAX_INGREDIENTS; // Milk
+    ingredientQuantities[2] = (ingredientQuantities[2] + (rand() % (MAX_INGREDIENTS / 2 + 1))) <= MAX_INGREDIENTS ? 
+                               ingredientQuantities[2] + (rand() % (MAX_INGREDIENTS / 2 + 1)) : MAX_INGREDIENTS; // Sugar
+    printf("Ingredients replenished:\n");
+    printf("Coffee: %d\n", ingredientQuantities[0]);
+    printf("Milk: %d\n", ingredientQuantities[1]);
+    printf("Sugar: %d\n", ingredientQuantities[2]);
+}
+
+void changeCoffeePrice(float *espressoPrice, float *cappuccinoPrice, float *mochaPrice) {
+    printf("Enter new price for Espresso: ");
+    scanf("%f", espressoPrice);
+    printf("Enter new price for Cappuccino: ");
+    scanf("%f", cappuccinoPrice);
+    printf("Enter new price for Mocha: ");
+    scanf("%f", mochaPrice);
+}
+
+void displayMenu(float espressoPrice, float cappuccinoPrice, float mochaPrice) {
+    printf("Menu:\n1. Espresso - %.2f AED\n2. Cappuccino - %.2f AED\n3. Mocha - %.2f AED\n4. Exit\n", 
+           espressoPrice, cappuccinoPrice, mochaPrice);
+}
