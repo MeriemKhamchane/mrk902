@@ -1,0 +1,85 @@
+#include <stdio.h> 
+#include <string.h> //allows use of strings
+#include <stdlib.h> //allows use of structures  
+#include <ctype.h> //allows tests and convertion of characters 
+
+// define our constants ouside the main 
+#define NUM_TEAMS 10
+#define SQUAD_SIZE 11
+
+// Structure for players birthdate
+struct Date {
+    int day; //int of string
+    int month;
+    int year;
+};
+
+// Structure for player details
+typedef struct { //type def is used to rename the struct
+    char name[26];  // player name (max 25 + 1 for the /0)
+    int kit_number;// kit number
+    char club[21];  // club (max 20)
+    struct Date DOB ;  // DOB nestest struct
+    char position[21];  // position (max 20)
+} player_t;
+
+// Structure for team details
+typedef struct {
+    char name[21]; //(max 20)
+    player_t squad[SQUAD_SIZE]; //an array to store the players with same size as the value squad size 
+    int active_size; //the number of players currenlty on the team
+} team_t;
+
+// Array of teams
+team_t league[NUM_TEAMS]; //array with the size of num teams
+
+// Function prototypes
+void display_menu();
+void enroll_club();
+void add_player();
+void search_update();
+void display_club_statistics();
+
+int main() {
+    int choice;
+
+    // Initialize the league array within the main
+
+    }
+    // using the switch case function in order to 
+    while (1) {
+        display_menu();
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                enroll_club();
+                break;
+            case 2:
+                add_player();
+                break;
+            case 3:
+                search_update();
+                break;
+            case 4:
+                display_club_statistics();
+                break;
+            case 5:
+                printf("Exiting the program.\n");
+                return 0;
+            default:
+                handle_error("Invalid selection, please try again.");
+                break;
+        }
+    }
+
+    return 0;
+}
+
+// Function definition 
+void display_menu()
+void enroll_club()
+void add_player()
+void search_update()
+void display_club_statistics()
