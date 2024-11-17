@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+// function prototypes
+bool isValid(const int arr[], int length, int pos);
+void remove_element(int arr[], int *length, int pos);
+void insert_element(int arr[], int *length, int pos, int value);
+void reshape(const int arr[], int length, int nRows, int nCols, int arr2d[nRows][nCols]);
+void trans_matrix(int nRows, int nCols, const int mat[nRows][nCols], int mat_trans[nCols][nRows]);
+bool found_duplicate(int arr[], int length);
+
+int main() {
+    int arr[5] = {10, 20, 30, 40, 50}; // initial array
+    int length = 5; // store the current length of arr
+
+    // test: isValid
+    printf("isValid(arr, 5, 2): %d\n", isValid(arr, length, 2)); // valid index
+    printf("isValid(arr, 5, 5): %d\n", isValid(arr, length, 5)); // invalid index
+
+    // test: remove_element
+    remove_element(arr, &length, 2); // removing 30 at index 2
+    printf("Array after remove_element at index 2: ");
+    for (int i = 0; i < length; i++) { // loop through the updated array
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    // test: insert_element
+    insert_element(arr, &length, 2, 80); // inserts 80 at index 2
+    printf("Array after insert_element at index 2: ");
+    for (int i = 0; i < length; i++) { // loop through the array
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    return 0; // exit program
+}
+
+// function to check if the index is valid for the array
+bool isValid(const int arr[], int length, int pos) {
+    return pos >= 0 && pos < length; // check range
+}
+
+// function to remove an element at a specific position in the array
+void remove_element(int arr[], int *length, int pos) {
+    if (!isValid(arr, *length, pos)) { // validate index
+        printf("Error: Invalid position\n");
+        return;
+    }
+    for (int i = pos; i < *length - 1; i++) { // shift elements left
+        arr[i] = arr[i + 1];
+    }
+    (*length)--; // decrease array length
+}
+
+// function to insert a value at a specific position in the array
+void insert_element(int arr[], int *length, int pos, int value) {
+    if (!isValid(arr, *length, pos) && pos != *length) { // validate index
+        printf("Error: Invalid position\n");
+        return;
+    }
+    for (int i = *length; i > pos; i--) { // shift elements right
+        arr[i] = arr[i - 1];
+    }
+    arr[pos] = value; // insert the new value
+    (*length)++; // increase the array length
+}
