@@ -1,0 +1,45 @@
+---------------------------------------
+#include <stdio.h>
+
+#define INITIAL_BALANCE 1000
+#define MAX_TRANSACTIONS 100
+
+// function prototypes
+void process_transactions(int transactions[], int transaction_count, int *balance, int tobeprocessed[], int *processed_count);
+void print_final_balance(int balance);
+void print_unprocessed_transactions(int tobeprocessed[], int processed_count);
+
+int main() {
+    // 1. Initialize transactions and other variables
+    int transactions[] = {}; // Add test transactions
+    int balance = INITIAL_BALANCE;
+    int tobeprocessed[MAX_TRANSACTIONS];
+    int processed_count = 0;
+    
+    // 2. Process transactions
+    process_transactions(transactions, /* transaction_count */, &balance, tobeprocessed, &processed_count);
+    
+    // 3. Print results
+    print_final_balance(balance);
+    print_unprocessed_transactions(tobeprocessed, processed_count);
+    
+    return 0;
+}
+
+// Function to process transactions
+void process_transactions(int transactions[], int transaction_count, int *balance, int tobeprocessed[], int *processed_count) {
+    // Loop through transactions
+    for (int i = 0; i < transaction_count; i++) {
+        // Check and process each transaction
+    }
+}
+
+// Function to print the final balance
+void print_final_balance(int balance) {
+    // Print final balance
+}
+
+// Function to print unprocessed transactions
+void print_unprocessed_transactions(int tobeprocessed[], int processed_count) {
+    // Print unprocessed transactions
+}
