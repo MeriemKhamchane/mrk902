@@ -1,0 +1,70 @@
+For the file Q3.pp: 
+Part a) 
+
+You write a floating-point number which as a FIXED notation using a given field and width specification.
+void print_real( float number, int fieldspace, int precision) { // set the output to fixed-point format, with a fixed precision and width
+    cout << fixed << setw(fieldspace) << setprecision(precision) << number << endl;
+}
+Three new functions: 
+1)	Fixed = forces the number to be printed in FIXED POINT NOTATION
+2)	Setw(fieldspace) = what sets the width of the output
+3)	Setprecision(precision) = gives a set value of the number of digits allowed after the decimal. 
+4)	Endl = mew line (/n in C code language)
+Part b)
+
+Function that modifies m1 and m2: 
+void update_scale(float& m1, float& m2, float m3 = 10.0f) {
+    m1 = (m1 + m2) * m3;  // Update m1: add m1 and m2, then multiply by m3
+    m2 = (m1 - m2) * m3;  // Update m2: subtract m2 from m1, then multiply by m3
+
+
+1)	Equate m3 to 10
+2)	Mathematical operation of m1 and m2 stated
+
+Part c)
+
+1)	First b and a are printed
+2)	AFTER update scale is used m1 = (a + b) * 10 and m2 = (new a value - b) * 10
+
+#include <iostream>
+#include <iomanip> // the libraries needed for c++ code
+using namespace std;
+
+// floating-point function to print number with fixed formatting
+void print_real(float number) {
+    cout << fixed << setprecision(3) << number << endl;
+}
+
+// update the scale function of two float values
+void update_scale(float& m1, float& m2, float m3 = 10.0f) {
+    m1 = (m1 + m2) * m3;  // Update m1: add m1 and m2, then multiply by m3
+    m2 = (m1 - m2) * m3;  // Update m2: subtract m2 from m1, then multiply by m3
+}
+
+int main() {
+    float a, b;
+
+    // ask the user for two real numbers
+    cout << "Please enter two real numbers: ";
+    cin >> a >> b;
+
+    // print the initial values of a and b
+    cout << "Initial values:" << endl;
+    print_real(a);
+    print_real(b);
+
+    // calls update_scale function to update a and b
+    update_scale(a, b);
+
+    // print the updated values of a and b
+    cout << "Updated values:" << endl;
+    print_real(a);
+    print_real(b);
+
+    return 0;
+}
+
+
+1)	Asks user to input values with cin and cout
+2)	Prints the initial values given
+3)	Preforms the operation and returns the new values
